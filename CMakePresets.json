@@ -1,0 +1,92 @@
+{
+  "version": 3,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 20,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "vs2022-base",
+      "displayName": "VS 2022 base configuration",
+      "generator": "Visual Studio 17 2022",
+      "architecture": "x64"
+    },
+    {
+      "name": "vs2022-x64-release-1.1.0",
+      "displayName": "VS 2022 - x64 Release - 1.1.0",
+      "inherits": "vs2022-base",
+      "binaryDir": "${sourceDir}/build-vs/x64-Release-1.1.0",
+      "cacheVariables": {
+        "CMAKE_CONFIGURATION_TYPES": "Release",
+        "TLCFI_PROTOCOL_VERSION": "1.1.0"
+      }
+    },
+    {
+      "name": "vs2022-x64-debug-1.1.0",
+      "displayName": "VS 2022 - x64 Debug - 1.1.0",
+      "inherits": "vs2022-base",
+      "binaryDir": "${sourceDir}/build-vs/x64-Debug-1.1.0",
+      "cacheVariables": {
+        "CMAKE_CONFIGURATION_TYPES": "Debug",
+        "TLCFI_PROTOCOL_VERSION": "1.1.0"
+      }
+    },
+    {
+      "name": "vs2022-x64-release-2.0.1",
+      "displayName": "VS 2022 - x64 Release - 2.0.1",
+      "inherits": "vs2022-base",
+      "binaryDir": "${sourceDir}/build-vs/x64-Release-2.0.1",
+      "cacheVariables": {
+        "CMAKE_CONFIGURATION_TYPES": "Release",
+        "TLCFI_PROTOCOL_VERSION": "2.0.1"
+      }
+    },
+    {
+      "name": "vs2022-x64-debug-2.0.1",
+      "displayName": "VS 2022 - x64 Debug - 2.0.1",
+      "inherits": "vs2022-base",
+      "binaryDir": "${sourceDir}/build-vs/x64-Debug-2.0.1",
+      "cacheVariables": {
+        "CMAKE_CONFIGURATION_TYPES": "Debug",
+        "TLCFI_PROTOCOL_VERSION": "2.0.1"
+      }
+    },
+    {
+      "name": "linux-ninja-base",
+      "displayName": "Linux/WSL - Ninja base configuration",
+      "generator": "Ninja"
+    },
+    {
+      "name": "linux-ninja-release",
+      "displayName": "Linux/WSL - Ninja Release - 1.1.0",
+      "inherits": "linux-ninja-base",
+      "binaryDir": "$env{HOME}/build/OpenItsContainer-linux-ninja-release-1.1.0",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "TLCFI_PROTOCOL_VERSION": "1.1.0"
+      }
+    },
+    {
+      "name": "linux-ninja-debug",
+      "displayName": "Linux/WSL - Ninja Debug - 1.1.0",
+      "inherits": "linux-ninja-base",
+      "binaryDir": "$env{HOME}/build/OpenItsContainer-linux-ninja-debug-1.1.0",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "TLCFI_PROTOCOL_VERSION": "1.1.0"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "build-linux-debug",
+      "configurePreset": "linux-ninja-debug"
+    }
+  ],
+  "testPresets": []
+}
+
+

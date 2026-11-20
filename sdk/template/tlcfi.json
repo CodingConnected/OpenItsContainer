@@ -1,0 +1,21 @@
+{
+    "host": "localhost",
+    "port": 11501,
+    "username": "Controller1",
+    "password": "Password1",
+    "uri": "app://Controller1",
+    "tls": {
+        "enabled": false,
+        "caFile": "",
+        "verifyPeer": true,
+        "expectedPeerName": ""
+    },
+
+    "cifSerialPort": 0,
+    "cifSerialBindAddress": "127.0.0.1",
+    "cifLoggingPort": 0,
+    "cifLoggingBindAddress": "127.0.0.1",
+    "cifFileLogDir": "",
+    "cifFileLogSystem": "",
+    "jsonLog": ""
+}

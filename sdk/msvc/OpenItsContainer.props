@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  OpenItsContainer SDK - Visual Studio property sheet (plain-MSVC consumption).
+
+  Add this to your C++ project (Property Manager > Add Existing Property Sheet)
+  to link your CVN-C controller against the prebuilt container WITHOUT CMake.
+  Your project then needs only:
+    - your controller C glue (defines CIF_* buffers, applicatieprogramma,
+      getCifItemName) in its source list
+    - your vendor's prebuilt .libs in Linker > Additional Dependencies
+
+  Requirements: x64, dynamic release CRT (/MD) in ALL configurations. The
+  container ships a single /MD lib set; building your app /MD (even in Debug)
+  lets those libs and your vendor /MD libs link in any configuration. Debug
+  builds still debug your own sources (/Zi /Od) on the release CRT.
+
+  Override OpenSSLDir if your OpenSSL is elsewhere; override the property in an
+  MSBuild property or environment variable before this sheet is imported.
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup Label="UserMacros">
+    <!-- SDK root, derived from this sheet's location (<sdk>/msvc/..). -->
+    <OpenItsContainerDir>$(MSBuildThisFileDirectory)..\</OpenItsContainerDir>
+    <!-- OpenSSL install root (import libs + DLLs). Override as needed. -->
+    <OpenSSLDir Condition="'$(OpenSSLDir)' == ''">C:\Program Files\OpenSSL-Win64</OpenSSLDir>
+  </PropertyGroup>
+
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(OpenItsContainerDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <!-- Release CRT in every configuration to match the single /MD lib set. -->
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <!-- main() lives in tlcfi_main.lib; a Console subsystem makes the linker
+           reference mainCRTStartup -> main and pull it from the archive. -->
+      <SubSystem>Console</SubSystem>
+      <AdditionalLibraryDirectories>$(OpenItsContainerDir)lib\x64;$(OpenSSLDir)\lib\VC\x64\MD;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <!-- tlcfi_ptp.lib is the optional PTP transport: it is on the link line
+           but static-lib linkage pulls it in only if the controller references
+           the PTP driver symbols; a non-PTP controller drops it. -->
+      <AdditionalDependencies>tlcfi_main.lib;tlcfi_runtime.lib;tlcfi_cif.lib;tlcfi_ptp.lib;tlcfi_fi.lib;tlcfi_tcp.lib;tlcfi_jsonrpc.lib;libssl.lib;libcrypto.lib;ws2_32.lib;mswsock.lib;delayimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <!-- Delay-load OpenSSL: a plain-TCP deployment runs without these DLLs. -->
+      <DelayLoadDLLs>libssl-3-x64.dll;libcrypto-3-x64.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+    </Link>
+  </ItemDefinitionGroup>
+
+</Project>

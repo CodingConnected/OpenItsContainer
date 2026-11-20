@@ -1,0 +1,75 @@
+@PACKAGE_INIT@
+
+# OpenItsContainer SDK package config.
+#
+# Provides the prebuilt container as imported static libraries and the
+# add_cvnc_controller() helper, which links a developer's CVN-C controller
+# (their C glue + vendor .libs) against the container to produce a binary that
+# runs THEIR controller inside OUR TLC-FI container.
+#
+# The container is consumed as prebuilt libraries: a consumer compiles only
+# their own controller sources (which include just cif/CIF_INC.h and
+# cif/CifController.h) — no asio/nlohmann/OpenSSL headers are needed to build.
+# OpenSSL is a link-time dependency only.
+
+include(CMakeFindDependencyMacro)
+find_dependency(OpenSSL)
+
+set(_oic_inc "${PACKAGE_PREFIX_DIR}/include")
+# Single CRT-consistent (/MD) lib set, used for every consumer configuration.
+set(_oic_lib "${PACKAGE_PREFIX_DIR}/lib/x64")
+
+# Path to the SDK-provided main() entry point and template, used by the helper.
+set(OpenItsContainer_TEMPLATE_DIR "${PACKAGE_PREFIX_DIR}/template")
+
+# Declare one prebuilt static library as an imported target with both
+# Release and Debug locations.
+function(_oic_add_lib name)
+    if(TARGET OpenItsContainer::${name})
+        return()
+    endif()
+    add_library(OpenItsContainer::${name} STATIC IMPORTED)
+    set_target_properties(OpenItsContainer::${name} PROPERTIES
+        # One location for all configs: the /MD lib links into Debug and
+        # Release consumer builds alike (both use the release CRT).
+        IMPORTED_LOCATION "${_oic_lib}/${name}.lib"
+        INTERFACE_INCLUDE_DIRECTORIES "${_oic_inc}")
+endfunction()
+
+_oic_add_lib(tlcfi_jsonrpc)
+_oic_add_lib(tlcfi_tcp)
+_oic_add_lib(tlcfi_fi)
+_oic_add_lib(tlcfi_cif)
+_oic_add_lib(tlcfi_ptp)
+_oic_add_lib(tlcfi_runtime)
+_oic_add_lib(tlcfi_main)
+
+# Wire the static-link graph + system dependencies onto the interface so that
+# linking OpenItsContainer::tlcfi_main pulls in the whole container.
+set_property(TARGET OpenItsContainer::tlcfi_tcp APPEND PROPERTY
+    INTERFACE_LINK_LIBRARIES OpenSSL::SSL OpenSSL::Crypto)
+if(WIN32)
+    set_property(TARGET OpenItsContainer::tlcfi_tcp APPEND PROPERTY
+        INTERFACE_LINK_LIBRARIES ws2_32 mswsock)
+endif()
+set_property(TARGET OpenItsContainer::tlcfi_jsonrpc APPEND PROPERTY
+    INTERFACE_LINK_LIBRARIES OpenItsContainer::tlcfi_tcp)
+set_property(TARGET OpenItsContainer::tlcfi_fi APPEND PROPERTY
+    INTERFACE_LINK_LIBRARIES OpenItsContainer::tlcfi_tcp OpenItsContainer::tlcfi_jsonrpc)
+set_property(TARGET OpenItsContainer::tlcfi_cif APPEND PROPERTY
+    INTERFACE_LINK_LIBRARIES OpenItsContainer::tlcfi_fi)
+set_property(TARGET OpenItsContainer::tlcfi_runtime APPEND PROPERTY
+    INTERFACE_LINK_LIBRARIES OpenItsContainer::tlcfi_cif)
+# The optional PTP transport. It references tlcfi_runtime::activeOptions() and
+# builds on tlcfi_cif, and is placed on the consumer link line via tlcfi_main —
+# but static-lib linkage pulls it in ONLY if the controller references the PTP
+# driver symbols (lees_char_COM_IBER etc.). A controller without PTP links
+# exactly as before, dropping tlcfi_ptp entirely; there is no build-time flag.
+set_property(TARGET OpenItsContainer::tlcfi_ptp APPEND PROPERTY
+    INTERFACE_LINK_LIBRARIES OpenItsContainer::tlcfi_cif OpenItsContainer::tlcfi_runtime)
+set_property(TARGET OpenItsContainer::tlcfi_main APPEND PROPERTY
+    INTERFACE_LINK_LIBRARIES OpenItsContainer::tlcfi_runtime OpenItsContainer::tlcfi_ptp)
+
+include("${CMAKE_CURRENT_LIST_DIR}/AddCvncController.cmake")
+
+check_required_components(OpenItsContainer)

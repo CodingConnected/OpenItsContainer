@@ -1,0 +1,5 @@
+add_subdirectory(tcp)
+add_subdirectory(jsonrpc)
+add_subdirectory(fi)
+add_subdirectory(cif)
+add_subdirectory(runtime)

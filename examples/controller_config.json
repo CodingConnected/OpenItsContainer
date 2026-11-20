@@ -1,0 +1,136 @@
+{
+    "signalGroups": [
+        {
+            "id": "fc02",
+            "index": 0,
+            "minGreen": 40,
+            "maxGreen": 200,
+            "amber": 30,
+            "minRed": 20,
+            "direction": 2,
+            "priorityMaxGreen": 300,
+            "detectors": ["d2"]
+        },
+        {
+            "id": "fc03",
+            "index": 1,
+            "minGreen": 40,
+            "maxGreen": 200,
+            "amber": 30,
+            "minRed": 20,
+            "direction": 3,
+            "priorityMaxGreen": 300,
+            "detectors": ["d3"]
+        },
+        {
+            "id": "fc05",
+            "index": 2,
+            "minGreen": 40,
+            "maxGreen": 200,
+            "amber": 30,
+            "minRed": 20,
+            "direction": 5,
+            "priorityMaxGreen": 300,
+            "detectors": ["d5"]
+        },
+        {
+            "id": "fc07",
+            "index": 3,
+            "minGreen": 40,
+            "maxGreen": 120,
+            "amber": 30,
+            "minRed": 20,
+            "direction": 7,
+            "priorityMaxGreen": 300,
+            "detectors": ["d7"]
+        },
+        {
+            "id": "fc08",
+            "index": 4,
+            "minGreen": 40,
+            "minRed": 20,
+            "direction": 8,
+            "priorityMaxGreen": 300,
+            "maxGreen": 120,
+            "amber": 30,
+            "detectors": ["d8"]
+        },
+        {
+            "id": "21",
+            "index": 5,
+            "minGreen": 40,
+            "minRed": 20,
+            "direction": -1,
+            "priorityMaxGreen": 300,
+            "maxGreen": 120,
+            "amber": 30,
+            "detectors": ["dk-21"]
+        },
+        {
+            "id": "31",
+            "index": 6,
+            "minGreen": 40,
+            "minRed": 20,
+            "direction": -1,
+            "priorityMaxGreen": 300,
+            "maxGreen": 120,
+            "amber": 30,
+            "detectors": ["dk31_1", "dk31_2"]
+        }
+    ],
+    "detectors": [
+        { "id": "d2", "index": 0 },
+        { "id": "d3", "index": 1 },
+        { "id": "d5", "index": 2 },
+        { "id": "d7", "index": 3 },
+        { "id": "d8", "index": 4 },
+        { "id": "dk-21", "index": 5 },
+        { "id": "dk31_1", "index": 6 },
+        { "id": "dk31_2", "index": 7 },
+        { "id": "ds2", "index": 8 }
+    ],
+    "outputs": [
+        { "id": "exclOutputA", "index": 0 },
+        { "id": "exclOutputB", "index": 1 },
+        { "id": "w21", "index": 2 },
+        { "id": "w31", "index": 3 }
+    ],
+    "inputs": [
+        { "id": "fix", "index": 0 },
+        { "id": "inputA", "index": 1 },
+        { "id": "inputB", "index": 2 },
+        { "id": "1", "index": 3 },
+        { "id": "2", "index": 4 }
+    ],
+    "conflicts": [
+
+        { "from": "21", "to": "fc03", "intergreen": 93 },
+        { "from": "21", "to": "fc05", "intergreen": 95 },
+        { "from": "21", "to": "fc07", "intergreen": 97 },
+    
+        { "from": "31", "to": "fc02", "intergreen": 102 },
+        { "from": "31", "to": "fc03", "intergreen": 103 },
+        { "from": "31", "to": "fc08", "intergreen": 108 },
+    
+        { "from": "fc02", "to": "31", "intergreen": 40 },
+        { "from": "fc02", "to": "fc05", "intergreen": 45 },
+    
+        { "from": "fc03", "to": "21", "intergreen": 51 },
+        { "from": "fc03", "to": "31", "intergreen": 50 },
+        { "from": "fc03", "to": "fc05", "intergreen": 55 },
+        { "from": "fc03", "to": "fc07", "intergreen": 57 },
+        { "from": "fc03", "to": "fc08", "intergreen": 58 },
+    
+        { "from": "fc05", "to": "21", "intergreen": 61 },
+        { "from": "fc05", "to": "fc02", "intergreen": 62 },
+        { "from": "fc05", "to": "fc03", "intergreen": 63 },
+        { "from": "fc05", "to": "fc08", "intergreen": 68 },
+    
+        { "from": "fc07", "to": "21", "intergreen": 71 },
+        { "from": "fc07", "to": "fc03", "intergreen": 73 },
+    
+        { "from": "fc08", "to": "31", "intergreen": 80 },
+        { "from": "fc08", "to": "fc03", "intergreen": 83 },
+        { "from": "fc08", "to": "fc05", "intergreen": 85 }
+    ]
+}

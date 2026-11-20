@@ -1,0 +1,39 @@
+{
+    "host": "localhost",
+    "port": 11501,
+    "username": "Control1",
+    "password": "Im?h@ppy!2meet(<you>)&5isSpeci@l",
+    "uri": "app://Controller1",
+    "tls": {
+        "enabled": false,
+        "caFile": "",
+        "verifyPeer": true,
+        "expectedPeerName": ""
+    },
+
+    "cifSerialPort": 0,
+    "cifSerialBindAddress": "127.0.0.1",
+    "cifSerialEcho": false,
+    "cifSerialWelcome": "",
+    "cifLoggingPort": 0,
+    "cifLoggingBindAddress": "127.0.0.1",
+    "cifFileLogDir": "",
+    "cifFileLogSystem": "",
+    "cifFileLogMaxFiles": 0,
+    "jsonLog": "",
+    "jsonLogMaxSizeMb": 1,
+    "jsonLogMaxBackups": 5,
+
+    "logFile": "",
+    "logLevel": "trace",
+    "consoleLogLevel": "trace",
+    "fileLogLevel": "info",
+    "logFileMaxSizeMb": 1,
+    "logFileMaxBackups": 5,
+
+    "parmStateDir": ".",
+    "parmStateIntervalMs": 1000,
+
+    "controllerOnlyItems": [],
+    "manuallyCoupledItems": []
+}

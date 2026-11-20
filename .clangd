@@ -1,0 +1,9 @@
+# clangd will automatically use compile_commands.json for include paths and compile flags
+# This file only contains additional settings
+
+Diagnostics:
+  UnusedIncludes: None
+  MissingIncludes: None
+Index:
+  Background: Build
+

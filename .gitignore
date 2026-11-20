@@ -1,0 +1,99 @@
+# C/C++ build artifacts
+*.o
+*.obj
+*.lo
+*.la
+*.a
+*.lib
+*.dll
+*.so
+*.dylib
+*.exe
+*.out
+*.app
+*.pdb
+*.ilk
+*.exp
+
+# CMake/Ninja build trees
+build/
+Build/
+build-*/
+Build-*/
+build_*/
+Build_*/
+**/build/
+**/Build/
+**/build-*/
+**/Build-*/
+**/build_*/
+**/Build_*/
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+CTestTestfile.cmake
+Testing/
+Makefile
+*.ninja
+.ninja_deps
+.ninja_log
+rules.ninja
+_deps/
+**/_deps/
+
+# Compiler databases / tool configs
+compile_commands.json
+CMakeSettings.json
+
+# Visual Studio / IDE
+.vs/
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/c_cpp_properties.json
+*.user
+*.suo
+*.vcxproj*
+*.sln
+
+# SDK plain-MSVC sample is source, not a build artifact - keep it tracked.
+!sdk/msvc/sample/*.vcxproj
+!sdk/msvc/sample/*.sln
+
+# Logs
+*.log
+log.txt
+
+# Project artifacts (not part of the source tree)
+nul
+tlcfi-201.pdf
+examples/Release.zip
+
+# Coverage
+*.gcno
+*.gcda
+*.gcov
+
+# OS/filesystem
+.DS_Store
+Thumbs.db
+
+.fake
+
+local_data/
+
+.cache/
+.aider*
+
+# Local dev tooling (not shared)
+.mcp.json
+.claude/settings.json
+.claude/settings.local.json
+.claude/*.lock
+mcp_bridge.py
+run_cc_*.ps1
+memory/
+
+# Python bytecode cache (e.g. examples/ptp_test_peer.py self-tests)
+__pycache__/
+*.pyc
